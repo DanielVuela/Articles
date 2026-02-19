@@ -1,0 +1,70 @@
+--CREATE DATABASE ArticlesDB;
+GO
+
+USE ArticlesDB;
+GO
+
+--USERS
+CREATE TABLE Users (
+    Id INT IDENTITY PRIMARY KEY,
+    Username NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(500) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    CreatedBy INT NULL,
+    UpdatedAt DATETIME NULL,
+    UpdatedBy INT NULL
+);
+GO
+
+/*Se crea tabla de roles y sus relaciones para mejor control 
+de usuarios*/
+
+--ROLES
+CREATE TABLE Roles (
+    Id INT IDENTITY PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+CREATE TABLE UserRoles (
+    UserId INT NOT NULL,
+    RoleId INT NOT NULL,
+    PRIMARY KEY (UserId, RoleId),
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+);
+GO
+
+--LOGIN AUDIT
+CREATE TABLE LoginAudit (
+    Id INT IDENTITY PRIMARY KEY,
+    UserId INT NOT NULL,
+    LoginDate DATETIME NOT NULL DEFAULT GETDATE(),
+    IpAddress NVARCHAR(50),
+    UserAgent NVARCHAR(300),
+    IsSuccessful BIT NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES Users(Id)
+);
+GO
+
+--SOURCES
+CREATE TABLE Sources (
+    Id INT IDENTITY PRIMARY KEY,
+    Url NVARCHAR(500) NOT NULL,
+    Name NVARCHAR(200) NOT NULL,
+    Description NVARCHAR(500),
+    ComponentType NVARCHAR(100) NOT NULL,
+    RequiresSecret BIT NOT NULL DEFAULT 0
+);
+GO
+
+--SOURCE ITEMS
+CREATE TABLE SourceItems (
+    Id INT IDENTITY PRIMARY KEY,
+    SourceId INT NOT NULL,
+    Json NVARCHAR(MAX) NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (SourceId) REFERENCES Sources(Id)
+);
+GO
