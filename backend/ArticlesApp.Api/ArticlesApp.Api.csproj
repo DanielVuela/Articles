@@ -16,11 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArticlesApp.Domain\ArticlesApp.Domain.csproj" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\ArticlesApp.Data\ArticlesApp.Data.csproj" />
+    <ProjectReference Include="..\ArticlesApp.Domain\ArticlesApp.Domain.csproj" />
+    <ProjectReference Include="..\ArticlesApp.Models\ArticlesApp.Models.csproj" />
   </ItemGroup>
 
 </Project>

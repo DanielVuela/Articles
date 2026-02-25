@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ArticlesApp.Data.Models;
+namespace ArticlesApp.Models.Entites;
 
 public partial class Source
 {

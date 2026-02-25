@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ArticlesApp.Data.Models;
+using ArticlesApp.Models.Entites;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesApp.Data;

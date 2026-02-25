@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ArticlesApp.Data.Services;
+using ArticlesApp.Domain.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,9 @@ namespace ArticlesApp.Data
       services.AddDbContext<ArticlesDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
       );
+
+      services.AddScoped<ISourceItemService, SourceItemService>();
+
       return services;
     }
   }

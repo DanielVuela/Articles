@@ -1,5 +1,7 @@
 using ArticlesApp.Data;
-using Microsoft.EntityFrameworkCore;
+using ArticlesApp.Domain.Services;
+using ArticlesApp.Models.Entites;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,27 +31,18 @@ app.UseHttpsRedirection();
 
 app.UseCors("frontend");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
-
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
+#region Source Items
+
+app.MapPost("/source-items", async (JsonElement payload, ISourceItemService service, CancellationToken ct) =>
+{
+  var id = await service.CreateAsync(payload, ct);
+  return Results.Created($"/source-items/{id}", new { id, message = "Stored" });
+})
+.WithName("CreateSourceItem");
+
+#endregion
 
 app.Run();
 

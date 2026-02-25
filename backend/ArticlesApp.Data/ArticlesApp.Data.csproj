@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArticlesApp.Models\ArticlesApp.Models.csproj" />
-  </ItemGroup>
+		<ProjectReference Include="..\ArticlesApp.Domain\ArticlesApp.Domain.csproj" />
+
+	</ItemGroup>
 
 </Project>
