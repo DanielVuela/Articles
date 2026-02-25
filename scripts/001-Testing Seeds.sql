@@ -11,3 +11,8 @@ GO
 INSERT INTO UserRoles (UserId, RoleId)
 VALUES (1, 1); -- admin -> Admin
 GO
+
+-- Crear un source
+INSERT INTO "Sources" ( Url, Name, Description, ComponentType, RequiresSecret)
+VALUES ('test.com', 'test', 'test description', 'khe', 0)
+GO
