@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import Button from "../components/ui/Button";
+import Title from "../components/ui/Title";
 
 type ApiResponse = {
   id?: number | string;
@@ -95,7 +97,11 @@ export default function UploadArticlePage() {
     const sample = {
       schemaVersion: "v1",
       source: { id: "demo", name: "Demo Source", url: "https://example.com" },
-      normalized: { id: "n-001", title: "Hello", url: "https://example.com/article" },
+      normalized: {
+        id: "n-001",
+        title: "Hello",
+        url: "https://example.com/article",
+      },
       raw: { format: "html", data: { original: "<html>...</html>" } },
     };
     setJsonText(JSON.stringify(sample));
@@ -106,20 +112,17 @@ export default function UploadArticlePage() {
       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-xl font-semibold">Upload Article</h1>
+            {/* <h1 className="text-xl font-semibold">Upload Article</h1> */}
+            <Title>Upload Article</Title>
             <p className="mt-1 text-sm text-slate-300">
               Paste JSON or upload a .json file, then send it to the API.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={loadSample}
-              className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium hover:bg-slate-700"
-            >
+            <Button onClick={loadSample} variant="secondary">
               Load sample
-            </button>
+            </Button>
 
             <label className="cursor-pointer rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium hover:bg-slate-700">
               Upload .json
@@ -134,21 +137,30 @@ export default function UploadArticlePage() {
                 }}
               />
             </label>
-
-            <button
+            <Button
+              disabled={!parsed || isSending}
+              onClick={handleSend}
+              variant="primary"
+            >
+              {isSending ? "Sending..." : "Send to API"}
+            </Button>
+{/*         <button
               type="button"
               onClick={handleSend}
               disabled={!parsed || isSending}
               className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSending ? "Sending..." : "Send to API"}
-            </button>
+            </button>*/}
+
           </div>
-        </div>
+        </div> 
 
         <div className="mt-3 text-xs text-slate-400">
           Endpoint:{" "}
-          <code className="rounded bg-slate-800 px-2 py-1">{baseUrl}/source-items</code>
+          <code className="rounded bg-slate-800 px-2 py-1">
+            {baseUrl}/source-items
+          </code>
         </div>
       </div>
 
@@ -170,12 +182,14 @@ export default function UploadArticlePage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
-          <h2 className="mb-3 text-sm font-semibold text-slate-200">Input JSON</h2>
+          <h2 className="mb-3 text-sm font-semibold text-slate-200">
+            Input JSON
+          </h2>
           <textarea
             value={jsonText}
             onChange={(e) => setJsonText(e.target.value)}
             rows={20}
-            placeholder='Paste JSON here...'
+            placeholder="Paste JSON here..."
             className="w-full resize-y rounded-xl border border-slate-800 bg-slate-950 p-3 font-mono text-xs text-slate-100 outline-none focus:border-emerald-500/60 focus:ring-2 focus:ring-emerald-500/20"
           />
         </section>
